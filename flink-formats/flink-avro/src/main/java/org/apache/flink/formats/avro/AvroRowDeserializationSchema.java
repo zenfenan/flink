@@ -44,8 +44,10 @@ import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.specific.SpecificRecord;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+//import org.joda.time.DateTime;
+//import org.joda.time.DateTimeFieldType;
+//import org.joda.time.LocalDate;
+//import org.joda.time.LocalTime;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -57,6 +59,11 @@ import java.nio.ByteBuffer;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -305,7 +312,7 @@ public class AvroRowDeserializationSchema extends AbstractDeserializationSchema<
 		} else {
 			// use 'provided' Joda time
 			final LocalDate value = (LocalDate) object;
-			millis = value.toDate().getTime();
+			millis = Date.from(value.atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime(); //value.get toDate().getTime();
 		}
 		return new Date(millis);
 	}
@@ -317,7 +324,7 @@ public class AvroRowDeserializationSchema extends AbstractDeserializationSchema<
 		} else {
 			// use 'provided' Joda time
 			final LocalTime value = (LocalTime) object;
-			millis = (long) value.get(DateTimeFieldType.millisOfDay());
+			millis = value.get(ChronoField.MILLI_OF_DAY); //(long) value.get(DateTimeFieldType.millisOfDay());
 		}
 		return new Time(millis - LOCAL_TZ.getOffset(millis));
 	}
@@ -328,8 +335,8 @@ public class AvroRowDeserializationSchema extends AbstractDeserializationSchema<
 			millis = (Long) object;
 		} else {
 			// use 'provided' Joda time
-			final DateTime value = (DateTime) object;
-			millis = value.toDate().getTime();
+			final Instant value = (Instant) object;
+			millis = Date.from(value).getTime();
 		}
 		return new Timestamp(millis - LOCAL_TZ.getOffset(millis));
 	}

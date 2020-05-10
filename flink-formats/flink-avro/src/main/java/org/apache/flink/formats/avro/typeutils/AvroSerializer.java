@@ -27,12 +27,14 @@ import org.apache.flink.formats.avro.utils.DataInputDecoder;
 import org.apache.flink.formats.avro.utils.DataOutputEncoder;
 import org.apache.flink.util.InstantiationUtil;
 
+import org.apache.avro.Conversion;
 import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericData;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificRecord;
+import org.apache.avro.specific.SpecificRecordBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +43,7 @@ import javax.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Collection;
 
 import static org.apache.flink.util.Preconditions.checkArgument;
 import static org.apache.flink.util.Preconditions.checkNotNull;
@@ -239,6 +242,12 @@ public class AvroSerializer<T> extends TypeSerializer<T> {
 
 		try {
 			checkAvroInitialized();
+
+			if (from instanceof SpecificRecord) {
+				Collection<Conversion<?>> conversions = ((SpecificRecordBase) from).getSpecificData().getConversions();
+				conversions.forEach(avroData::addLogicalTypeConversion);
+			}
+
 			return avroData.deepCopy(runtimeSchema, from);
 		}
 		finally {

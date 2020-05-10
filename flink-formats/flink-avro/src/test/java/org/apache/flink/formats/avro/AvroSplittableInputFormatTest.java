@@ -32,8 +32,6 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,6 +41,9 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -118,8 +119,8 @@ public class AvroSplittableInputFormatTest {
 		user1.setTypeDate(LocalDate.parse("2014-03-01"));
 		user1.setTypeTimeMillis(LocalTime.parse("12:12:12"));
 		user1.setTypeTimeMicros(123456);
-		user1.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"));
-		user1.setTypeTimestampMicros(123456L);
+		user1.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()));
+		user1.setTypeTimestampMicros(Instant.ofEpochMilli(123456L));
 		// 20.00
 		user1.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()));
 		// 20.00
@@ -149,8 +150,8 @@ public class AvroSplittableInputFormatTest {
 				.setTypeDate(LocalDate.parse("2014-03-01"))
 				.setTypeTimeMillis(LocalTime.parse("12:12:12"))
 				.setTypeTimeMicros(123456)
-				.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"))
-				.setTypeTimestampMicros(123456L)
+				.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()))
+				.setTypeTimestampMicros(Instant.ofEpochMilli(123456L))
 				// 20.00
 				.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 				// 20.00
@@ -184,8 +185,8 @@ public class AvroSplittableInputFormatTest {
 			user.setTypeDate(LocalDate.parse("2014-03-01"));
 			user.setTypeTimeMillis(LocalTime.parse("12:12:12"));
 			user.setTypeTimeMicros(123456);
-			user.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"));
-			user.setTypeTimestampMicros(123456L);
+			user.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()));
+			user.setTypeTimestampMicros(Instant.ofEpochMilli(123456L));
 			// 20.00
 			user.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()));
 			// 20.00
@@ -218,10 +219,10 @@ public class AvroSplittableInputFormatTest {
 			format.close();
 		}
 
-		Assert.assertEquals(1604, elementsPerSplit[0]);
-		Assert.assertEquals(1203, elementsPerSplit[1]);
-		Assert.assertEquals(1203, elementsPerSplit[2]);
-		Assert.assertEquals(990, elementsPerSplit[3]);
+		Assert.assertEquals(1573, elementsPerSplit[0]);
+		Assert.assertEquals(1179, elementsPerSplit[1]);
+		Assert.assertEquals(1179, elementsPerSplit[2]);
+		Assert.assertEquals(1069, elementsPerSplit[3]);
 		Assert.assertEquals(NUM_RECORDS, elements);
 		format.close();
 	}
@@ -264,10 +265,10 @@ public class AvroSplittableInputFormatTest {
 			format.close();
 		}
 
-		Assert.assertEquals(1604, elementsPerSplit[0]);
-		Assert.assertEquals(1203, elementsPerSplit[1]);
-		Assert.assertEquals(1203, elementsPerSplit[2]);
-		Assert.assertEquals(990, elementsPerSplit[3]);
+		Assert.assertEquals(1573, elementsPerSplit[0]);
+		Assert.assertEquals(1179, elementsPerSplit[1]);
+		Assert.assertEquals(1179, elementsPerSplit[2]);
+		Assert.assertEquals(1069, elementsPerSplit[3]);
 		Assert.assertEquals(NUM_RECORDS, elements);
 		format.close();
 	}
@@ -310,10 +311,10 @@ public class AvroSplittableInputFormatTest {
 			format.close();
 		}
 
-		Assert.assertEquals(1604, elementsPerSplit[0]);
-		Assert.assertEquals(1203, elementsPerSplit[1]);
-		Assert.assertEquals(1203, elementsPerSplit[2]);
-		Assert.assertEquals(990, elementsPerSplit[3]);
+		Assert.assertEquals(1573, elementsPerSplit[0]);
+		Assert.assertEquals(1179, elementsPerSplit[1]);
+		Assert.assertEquals(1179, elementsPerSplit[2]);
+		Assert.assertEquals(1069, elementsPerSplit[3]);
 		Assert.assertEquals(NUM_RECORDS, elements);
 		format.close();
 	}

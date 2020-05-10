@@ -29,9 +29,6 @@ import org.apache.flink.util.StringUtils;
 
 import org.apache.avro.reflect.ReflectDatumReader;
 import org.apache.avro.reflect.ReflectDatumWriter;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -40,6 +37,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -271,8 +271,8 @@ public class EncoderDecoderTest {
 			LocalDate.parse("2014-03-01"),
 			LocalTime.parse("12:12:12"),
 			123456,
-			DateTime.parse("2014-03-01T12:12:12.321Z"),
-			123456L,
+			Instant.parse("2014-03-01T12:12:12.321Z"),
+			Instant.ofEpochMilli(123456L),
 			ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()), // 20.00
 			new Fixed2(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray())); // 20.00
 

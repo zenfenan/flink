@@ -46,7 +46,6 @@ public class AvroRowDeSerializationSchemaTest {
 
 		final byte[] bytes = serializationSchema.serialize(testData.f2);
 		final Row actual = deserializationSchema.deserialize(bytes);
-
 		assertEquals(testData.f2, actual);
 	}
 

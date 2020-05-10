@@ -35,14 +35,15 @@ import org.apache.flink.types.Row;
 
 import org.apache.avro.util.Utf8;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -83,8 +84,8 @@ public class AvroTypesITCase extends TableProgramsClusterTestBase {
 			.setTypeDate(LocalDate.parse("2014-03-01"))
 			.setTypeTimeMillis(LocalTime.parse("12:12:12"))
 			.setTypeTimeMicros(123456)
-			.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"))
-			.setTypeTimestampMicros(123456L)
+			.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()))
+			.setTypeTimestampMicros(Instant.ofEpochMilli(123456L))
 			.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.setTypeDecimalFixed(new Fixed2(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.build();
@@ -107,8 +108,8 @@ public class AvroTypesITCase extends TableProgramsClusterTestBase {
 			.setTypeBytes(ByteBuffer.allocate(10))
 			.setTypeTimeMillis(LocalTime.parse("12:12:12"))
 			.setTypeTimeMicros(123456)
-			.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"))
-			.setTypeTimestampMicros(123456L)
+			.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()))
+			.setTypeTimestampMicros(Instant.ofEpochMilli(123456L))
 			.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.setTypeDecimalFixed(new Fixed2(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.build();
@@ -132,8 +133,8 @@ public class AvroTypesITCase extends TableProgramsClusterTestBase {
 			.setTypeDate(LocalDate.parse("2014-03-01"))
 			.setTypeTimeMillis(LocalTime.parse("12:12:12"))
 			.setTypeTimeMicros(123456)
-			.setTypeTimestampMillis(DateTime.parse("2014-03-01T12:12:12.321Z"))
-			.setTypeTimestampMicros(123456L)
+			.setTypeTimestampMillis(Instant.ofEpochSecond(DateTime.parse("2014-03-01T12:12:12.321Z").getMillis()))
+			.setTypeTimestampMicros(Instant.ofEpochSecond(123456L))
 			.setTypeDecimalBytes(ByteBuffer.wrap(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.setTypeDecimalFixed(new Fixed2(BigDecimal.valueOf(2000, 2).unscaledValue().toByteArray()))
 			.build();
